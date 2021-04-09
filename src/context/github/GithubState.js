@@ -10,6 +10,14 @@ import {
 	GET_REPOS,
 } from '../types';
 
+let githubToken;
+
+if (process.env.NODE_ENV !== 'production') {
+	githubToken = process.env.REACT_APP_GITHUB_TOKEN;
+} else {
+	githubToken = process.env.GITHUB_TOKEN;
+}
+
 const GithubState = props => {
 	const initialState = {
 		users: [],
@@ -25,7 +33,7 @@ const GithubState = props => {
 		setLoading();
 
 		const res = await axios.get(
-			`https://api.github.com/search/users?q=${text}&token=${process.env.REACT_APP_GITHUB_TOKEN}`
+			`https://api.github.com/search/users?q=${text}&token=${githubToken}`
 		);
 
 		dispatch({
@@ -39,7 +47,7 @@ const GithubState = props => {
 		setLoading();
 
 		const res = await axios.get(
-			`https://api.github.com/users/${userName}?token=${process.env.REACT_APP_GITHUB_TOKEN}`
+			`https://api.github.com/users/${userName}?token=${githubToken}`
 		);
 
 		dispatch({
@@ -53,7 +61,7 @@ const GithubState = props => {
 		setLoading();
 
 		const res = await axios.get(
-			`https://api.github.com/users/${userName}/repos?per_page=5&sort=created:asc?token=${process.env.REACT_APP_GITHUB_TOKEN}`
+			`https://api.github.com/users/${userName}/repos?per_page=5&sort=created:asc?token=${githubToken}`
 		);
 
 		dispatch({
